@@ -18,7 +18,7 @@ int carv(char c) {		//caractere validé
     return majmin(c) || chiffre(c) || c == '_';
 }
 
-int vtype(const char *m) {
+int vtype(char *m) {
     if (strcmp(m, "int") == 0 ) {
 	    return 0;
     }
