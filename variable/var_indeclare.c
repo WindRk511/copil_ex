@@ -92,7 +92,6 @@ void ideclar(char *text, char** lvar,int* nvar) {
 
 int detvar(char* p,char* src, FILE* pf) 
 {
-	printf("tsia");
 	if(strcmp(p,"-v") != 0) {
 	       	if (strcmp(p,"-pv") != 0 || strcmp(p,"-vp") != 0) {
 			return -1;
