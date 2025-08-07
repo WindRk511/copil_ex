@@ -16,6 +16,7 @@ void pointre(char** text,int l, int r, int* err) {	//recherche double virgule
 		if (pv[0]== ';' && pv[1] == ';') {
 			*err = *err + 1;
 			printf("Ligne %d position %d :\e[31mDouble point virgule detect\e[0m\n",l,i);
+			text[0][i] = ';';
 		}
 
 		p++;
@@ -37,6 +38,7 @@ void tentete(char** text,int l, int r, int *err) {	//detection pour les macropro
 		if (text[0][i] == ';') {
 			*err = *err + 1 ;
 			printf("Ligne %d position %d :\e[31m erreur de point virgule à la ligne \e[0m\n",l,i);
+			text[0][i] = ' ';
 		}
 	}
 }
@@ -49,12 +51,14 @@ void pvdebut(char** text,int l,int r,int* err)
 	if (text[0][0] == ';') {
 		*err = *err + 1;
 			printf("\nLigne %d position %d :\e[31m erreur(s) d'emplacement de point virgule\e[0m\n",l,i);
+			text[0][i] = ' ';
 		return;
 	}
 	while(text[0][i] == ' ' || text[0][i] == '\t') {
 	 if (text[0][i + 1] == ';') {
 		 	*err = *err + 1;
 			printf("\nLigne %d position %d :\e[31m erreur(s) d'emplacement de point virgule\e[0m\n",l,i);
+			text[0][i] = ' ';
 			break;
 		}
 		else {
@@ -93,6 +97,7 @@ void pvftion(char** text, int l, int r, int com,int* err)
 		if (text[0][i] == ';') {
 			*err = *err + 1;
 				printf("Ligne %d position %d :\e[31m erreur(s) de point virgule \e[0m\n",l,i);
+				text[0][i] = ' ';
 		}
 		i++;
 	}
@@ -108,6 +113,7 @@ void pvftion(char** text, int l, int r, int com,int* err)
 			if(text[0][i] == ';') {
 				*err = *err + 1;
 				printf("Ligne %d position %d :\e[31m erreur(s) de point virgule \e[0m\n",l,i);
+				text[0][i] = ' ';
 			}
 			i++;
 		}
@@ -174,6 +180,7 @@ int pvdvar(char** text, int l, int r, int com, int* err)
 		if(i >= r) {
 			*err = *err + 1;
 			printf("Ligne %d position %d : \e[31mManque de point virgule\e[0m\n",l,i);
+			text[0][i] = ';';
 			free(t);
 			return -1;
 		}
@@ -184,6 +191,7 @@ int pvdvar(char** text, int l, int r, int com, int* err)
 		if(text[0][i] == ';') {
 			*err = *err + 1;
 			printf("Ligne %d position %d : \e[31mErreur de point virgule\e[0m",l,i);
+			text[0][i] = ' ';
 		}
 		i++;
 		if( i >= r) {
@@ -231,6 +239,7 @@ int pvifwhile( char** text, int l, int r , int* com, int* err)
 		if (text[0][i] == ';') {
 			*err = *err + 1;
 			printf("Ligne %d position %d : \e[31mErreur du point virgule \e[0m",l,r);
+			text[0][i] = ' ';
 		}
 		b--;
 	}
@@ -248,6 +257,7 @@ int pvifwhile( char** text, int l, int r , int* com, int* err)
 		if ( text[0][i] == ';') {
 			*err = *err + 1;
 			printf("Ligne %d position %d : \e[31merreur du point virgule\e[0m\n",l,i);
+			text[0][i] = ' ';
 		}
 		i++;
 	}
@@ -267,6 +277,7 @@ int pvifwhile( char** text, int l, int r , int* com, int* err)
 			if (text[0][i] != ';') {
 				*err = *err + 1;
 				printf("Ligne %d position %d \e[31mManque de point virgule\e[0m\n", l,i);
+				text[0][i] = ';';
 				break;
 			}
 		}
@@ -276,6 +287,7 @@ int pvifwhile( char** text, int l, int r , int* com, int* err)
 			if (text[0][i] == ';') {
 				*err = *err + 1;
 				printf("Ligne %d position %d : \e[31merreur de point virgule detecté\e[0m\n",l,i);
+				text[0][i] = ';';
 			}
 		}
 	}
@@ -310,6 +322,7 @@ int pvfor(char** text, int l, int r, int* com, int* err) {
 		if (text[0][i] == ';') {
 			*err = *err + 1;
 			printf("Ligne %d position %d : \e[31mErreur du point virgule \e[0m",l,r);
+			text[0][i] = ';';
 		}
 		b--;
 	}
@@ -328,6 +341,7 @@ int pvfor(char** text, int l, int r, int* com, int* err) {
 		if ( text[0][i] == ';') {
 			*err = *err + 1;
 			printf("Ligne %d position %d : \e[31merreur du point virgule\e[0m\n",l,i);
+			text[0][i] = ' ';
 		}
 		i++;
 
@@ -342,6 +356,7 @@ int pvfor(char** text, int l, int r, int* com, int* err) {
 			pv++;
 			if (pv > 3) {
 				printf("Ligne %d position %d :\e[31m erreur du point virgule\e[0m\n",l,i);
+				text[0][i] = ';';
 			}
 		}
 
@@ -365,6 +380,7 @@ int pvfor(char** text, int l, int r, int* com, int* err) {
 		while(b < i) {
 			if (text[0][b] == ';') {
 				printf("Ligne %d position %d :\e[31mErreur du point virgule \e[0m\n",l,b);
+				text[0][i] = ';';
 			}
 			b++;
 		}	
@@ -377,6 +393,7 @@ int pvfor(char** text, int l, int r, int* com, int* err) {
 				if(pv > 1) {
 					*err = *err + 1;
 					printf("Ligne %d position %d : \e[31merreur du point virgule\e[0m\n",l,b);
+					text[0][i] = ';';
 				}
 			}
 			b++;
@@ -387,6 +404,7 @@ int pvfor(char** text, int l, int r, int* com, int* err) {
 
 		if( pv == 0 ) {
 			printf("Ligne %d position %d : \e[31mManque du point virgule\e[0m\n",l,i);
+			text[0][i] = ';';
 		}
 	}
 
@@ -394,6 +412,7 @@ int pvfor(char** text, int l, int r, int* com, int* err) {
 	while(i<r) {
 		if(text[0][i] == ';') {
 			printf("Ligne %d position %d : \e[31mManque du point virgule\e[0m\n",l,i);
+			text[0][i] = ';';
 		}
 	}
 
@@ -447,6 +466,7 @@ int pvinstr(char** text, int l, int r, int* com, int* err) {
 			if( text[0][i] == ';') {
 				*err = *err + 1;
 				printf("Ligne %d position %d :\e[31mErreur de point virgule detecté\e[0m\n",l,i);
+				text[0][i] = ' ';
 			}
 		}
 		pv = 0;	
@@ -456,6 +476,7 @@ int pvinstr(char** text, int l, int r, int* com, int* err) {
 				if (pv > 1) {
 					*err = *err + 1;
 					printf("Ligne %d position %d :\e[31mErreur de point virgule detecté\e[0m\n",l,i);
+					text[0][i] = ' ';
 				}
 			}
 		}
@@ -463,6 +484,7 @@ int pvinstr(char** text, int l, int r, int* com, int* err) {
 		if (pv == 0) {
 			*err = *err + 1;
 			printf("Ligne %d position %d :\e[31mManque de point virgule\e[0m\n",l,b + 1);
+			text[0][i] = ';';
 		}
 		return 1;
 	}
@@ -471,6 +493,7 @@ int pvinstr(char** text, int l, int r, int* com, int* err) {
 			if( text[0][i] == ';') {
 				*err = *err + 1;
 				printf("Ligne %d position %d :\e[31mErreur de point virgule detecté\e[0m\n",l,i);
+				text[0][i] = ';';
 			}
 		}
 
@@ -481,11 +504,13 @@ int pvinstr(char** text, int l, int r, int* com, int* err) {
 				if (pv > 1) {
 					*err = *err + 1;
 					printf("Ligne %d position %d :\e[31mErreur de point virgule detecté\e[0m\n",l,i);
+					text[0][i] = ' ';
 				}
 			}
 		}
 		if (pv == 0) {
 			printf("Ligne %d position %d :\e[31mManque de point virgule\e[0m\n",l,b + 1);
+			text[0][i] = ';';
 		}
 		free(p);
 		return 1;
@@ -494,6 +519,7 @@ final:
 	for(i = 0; i < r; i++) {
 		if(text[0][i] == ';') {
 			printf("Ligne %d position %d : \e[31mErreur de point virgule\e[0m\n",l,i);
+			text[0][i] = ';';
 		}
 	}
 		free(p);
