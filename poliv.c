@@ -1,4 +1,3 @@
-#include"poliv.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -6,6 +5,7 @@
 //verification de parametre
 char* veprm(int n, char** a, char* p )
 {
+	puts(a[1]);
 	if (n == 2) {
 	      	if ( strcmp(a[1],"--aide") == 0) {
 			strcpy(p,"--aide");
@@ -30,17 +30,16 @@ char* veprm(int n, char** a, char* p )
 		strcpy(p,"-v");
                 return p;
         }
-        else if ( strcmp(a[1],"-pv") == 0) {
+        else if ( strncmp(a[1],"-pv",3) == 0 || strncmp(a[1],"-vp",3)) {
 		strcpy(p,"-pv");
                 return p;
         }
-        if ( strcmp(a[1],"--aide") == 0) {
+	else{
+       		printf("Parametre incorrect\n");
 		strcpy(p,"--aide");
                 return p;
         }
 
-        printf("Parametre incorrect\n");
-        exit (1);
 
 }
 
@@ -55,7 +54,7 @@ int aide(char* p) {
 	printf("-p		pour analyser les points virgule\n");
 	printf("-v		pour analyser les variables \n");
 	printf("--aide		page d'aide\n");
-	return (0);
+	exit (0);
 }
 
 
@@ -223,68 +222,67 @@ char* icltcheck(char** text, int r)
 	return t;
 }
 
-//Detect les types des variables
 char* typedet(char** text, int r) {
-        char* t = NULL;
-        char* p;
-        int i = 1;
+	char* t = NULL;
+	char* p;
+	int i = 1;
 
-                if (text[0][0] == '\n') {
-                        return NULL;
-                }
+		if (text[0][0] == '\n') {
+			return NULL;
+		}
 
-        for(i = 0; i < r; i++) {
-                p = &text[0][i];
-                if (strncmp(p,"int",3) == 0) {
-                        if(text[0][i+3] != ' ') {
-                                continue;
-                        }
-                        t = malloc(4);
-                        strcpy(t,"int");
-                        return t;
-                }
-                else if ( strncmp(p,"void",4) == 0) {
-                        if(text[0][i+4] != ' ') {
-                                continue;
-                        }
-                        t = malloc(5);
-                        strcpy(t,"void");
-                        return t;
-                }
-                else if ( strncmp(p,"char",4) == 0) {
-                        if(text[0][i+4] != ' ') {
-                                continue;
-                        }
-                        t = malloc(5);
-                        strcpy(t,"char");
-                        return t;
-                }
-                else if ( strncmp(p,"float",5) == 0) {
-                        if(text[0][i+5] != ' ') {
-                                continue;
-                        }
-                        t = malloc(6);
-                        strcpy(t,"float");
-                        return t;
-                }
-                else if ( strncmp(p,"double",6) == 0) {
-                        if(text[0][i+6] != ' ') {
-                                continue;
-                        }
-                        t = malloc(7);
-                        strcpy(t,"double");
-                        return t;
-                }
-                else if ( strncmp(p,"long",4) == 0) {
-                        if(text[0][i+4] != ' ') {
-                                continue;
-                        }
-                        t = malloc(5);
-                        strcpy(t,"long");
-                        return t;
-                }
-                i = i + 1;
-        }
-        return NULL;
+	for(i = 0; i < r; i++) {
+		p = &text[0][i];
+		if (strncmp(p,"int",3) == 0) {
+			if(text[0][i+3] != ' ') {
+				continue;
+			}
+			t = malloc(4);
+			strcpy(t,"int");
+			return t;
+		}
+		else if ( strncmp(p,"void",4) == 0) {
+			if(text[0][i+4] != ' ') {
+				continue;
+			}
+			t = malloc(5);
+			strcpy(t,"void");
+			return t;
+		}
+		else if ( strncmp(p,"char",4) == 0) {
+			if(text[0][i+4] != ' ') {
+				continue;
+			}
+			t = malloc(5);
+			strcpy(t,"char");
+			return t;
+		}
+		else if ( strncmp(p,"float",5) == 0) {
+			if(text[0][i+5] != ' ') {
+				continue;
+			}
+			t = malloc(6);
+			strcpy(t,"float");
+			return t;
+		}
+		else if ( strncmp(p,"double",6) == 0) {
+			if(text[0][i+6] != ' ') {
+				continue;
+			}
+			t = malloc(7);
+			strcpy(t,"double");
+			return t;
+		}
+		else if ( strncmp(p,"long",4) == 0) {
+			if(text[0][i+4] != ' ') {
+				continue;
+			}
+			t = malloc(5);
+			strcpy(t,"long");
+			return t;
+		}
+		i = i + 1;
+	}
+	return NULL;
 }
 

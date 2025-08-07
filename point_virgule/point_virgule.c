@@ -1,3 +1,4 @@
+#include"point_virgule.h"
 #include"../poliv.h"
 #include<stdio.h>
 #include<stdlib.h>
@@ -484,7 +485,7 @@ int pvinstr(char** text, int l, int r, int* com, int* err) {
 		if (pv == 0) {
 			*err = *err + 1;
 			printf("Ligne %d position %d :\e[31mManque de point virgule\e[0m\n",l,b + 1);
-			text[0][i] = ';';
+			text[0][i - 1] = ';';
 		}
 		return 1;
 	}
@@ -510,7 +511,7 @@ int pvinstr(char** text, int l, int r, int* com, int* err) {
 		}
 		if (pv == 0) {
 			printf("Ligne %d position %d :\e[31mManque de point virgule\e[0m\n",l,b + 1);
-			text[0][i] = ';';
+			text[0][i - 1] = ';';
 		}
 		free(p);
 		return 1;
@@ -519,7 +520,7 @@ final:
 	for(i = 0; i < r; i++) {
 		if(text[0][i] == ';') {
 			printf("Ligne %d position %d : \e[31mErreur de point virgule\e[0m\n",l,i);
-			text[0][i] = ';';
+			text[0][i - 1] = ';';
 		}
 	}
 		free(p);
@@ -527,17 +528,28 @@ final:
 }	
 
 //fontion principale de detection de point virgule
-void dtpointv(char* src, FILE* ptf) 
+void dtpointv(char* p, char* src, FILE* ptf) 
 {	
+	if (strcmp(p,"-p") != 0) {
+		if(strncmp(p,"-vp",3) != 0 || strncmp(p,"-pv",3) != 0) {
+			return;
+		}
+	}
 
        	char* text = malloc(300*sizeof(char));
 	int lc = 0;     //ligne courant
 	int ltext;
 	int lr;		//longeur considere
 	int ecom = 0;	//etat du commentaire
-	ptf=fopen(src,"r");
 	int nerr;	//erreur par ligne
 	int terr = 0;		//erreur total;
+	char* fm = malloc(sizeof(src) + 4);
+	strcpy(fm,"mod_");
+	strcat(fm,src);
+       		
+	FILE* pfm = fopen(fm,"a");
+	ptf=fopen(src,"r");
+	
 	while ( feof(ptf) == 0) {
 		nerr = 0;
                 lc = lc + 1;
@@ -553,12 +565,15 @@ void dtpointv(char* src, FILE* ptf)
 		pvifwhile(&text,lc,lr ,&ecom,&nerr);
 		pvfor(&text,lc,lr,&ecom,&nerr);
 		pvinstr(&text,lc,lr,&ecom,&nerr);
-
+		
 		terr = terr + nerr;
+		fputs(text,pfm);
         }
 
 	printf("\n\nTotal d'erreur détecté lier à la point virgule : %d \n",terr); 
 	fclose(ptf);
+	fclose(pfm);
+	free(fm);
 	free(text);
 
 }
